@@ -4,8 +4,8 @@ class Observable<Type> {
     var value: Type {
         didSet {
             removeNilObserverCallbacks()
-            notifiyCallbacks(value: oldValue, options: .old)
-            notifiyCallbacks(value: value, options: .new)
+            notifiyCallbacks(value: oldValue, option: .old)
+            notifiyCallbacks(value: value, option: .new)
         }
     }
 
@@ -38,7 +38,7 @@ class Observable<Type> {
     }
 
     func removeObserver(_ observer: AnyObject) {
-        callbacks = callbacks.filter { $0.observer != observer }
+        callbacks = callbacks.filter { $0.observer !== observer }
     }
 
     private func removeNilObserverCallbacks() {
@@ -58,8 +58,8 @@ class Observable<Type> {
         init(
             observer: AnyObject,
             options: [ObservableOptions],
-            closure: @escaping (Type, ObservableOptions)
-        ) -> Void {
+            closure: @escaping (Type, ObservableOptions) -> Void
+        ) {
             self.observer = observer
             self.options = options
             self.closure = closure
